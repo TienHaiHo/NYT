@@ -11,7 +11,9 @@ import retrofit2.http.Query;
  */
 public interface apiInterfaceNYT {
     //&api-key=
-    @GET("24.json?limit=10")
+    //@GET("24.json?limit=10")
+
+    @GET("72.json")
     Call<NYT> topNews(@Query("api_key") String apiKey);
 //    @GET("/24.json?limit=10")
 //    void

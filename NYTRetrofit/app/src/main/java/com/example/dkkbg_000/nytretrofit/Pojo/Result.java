@@ -6,9 +6,6 @@ package com.example.dkkbg_000.nytretrofit.Pojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Result {
 
     @SerializedName("section")
@@ -71,9 +68,9 @@ public class Result {
 //    @SerializedName("related_urls")
 //    @Expose
 //    private List<RelatedUrl> relatedUrls = new ArrayList<RelatedUrl>();
-    @SerializedName("multimedia")
-    @Expose
-    private List<Multimedium> multimedia = new ArrayList<Multimedium>();
+//    @SerializedName("multimedia")
+//    @Expose
+//    private List<Multimedium> multimedia = new ArrayList<Multimedium>();
 
     /**
      *
@@ -440,17 +437,17 @@ public class Result {
      * @return
      * The multimedia
      */
-    public List<Multimedium> getMultimedia() {
-        return multimedia;
-    }
+//    public List<Multimedium> getMultimedia() {
+//        return multimedia;
+//    }
 
     /**
      *
      * @param multimedia
      * The multimedia
      */
-    public void setMultimedia(List<Multimedium> multimedia) {
-        this.multimedia = multimedia;
-    }
+//    public void setMultimedia(List<Multimedium> multimedia) {
+//        this.multimedia = multimedia;
+//    }
 
 }
