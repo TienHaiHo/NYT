@@ -1,4 +1,4 @@
-package com.example.dkkbg_000.nytretrofit;
+package com.example.dkkbg_000.nytretrofit.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,27 +9,28 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.dkkbg_000.nytretrofit.Pojo.Result;
+import com.example.dkkbg_000.nytretrofit.R;
+import com.example.dkkbg_000.nytretrofit.model.Result;
 
 import java.util.List;
 
 /**
  * Created by dkkbg_000 on 07/06/2016.
  */
-public class adapter extends RecyclerView.Adapter<adapter.MovieViewHolder>{
+public class Adapter_MainActivity extends RecyclerView.Adapter<Adapter_MainActivity.MovieViewHolder>{
     private List<Result> news;
     private int rowLayout;
     private Context context;
 
 
-    public adapter(List<Result> news, int rowLayout, Context context) {
+    public Adapter_MainActivity(List<Result> news, int rowLayout, Context context) {
         this.news = news;
         this.rowLayout = rowLayout;
         this.context = context;
     }
 
     @Override
-    public adapter.MovieViewHolder onCreateViewHolder(ViewGroup parent,
+    public Adapter_MainActivity.MovieViewHolder onCreateViewHolder(ViewGroup parent,
                                                             int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
         return new MovieViewHolder(view);

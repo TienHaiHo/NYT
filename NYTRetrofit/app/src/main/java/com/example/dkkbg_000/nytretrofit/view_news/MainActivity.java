@@ -1,7 +1,7 @@
-package com.example.dkkbg_000.nytretrofit.View;
+package com.example.dkkbg_000.nytretrofit.view_news;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,24 +11,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
-import com.example.dkkbg_000.nytretrofit.Pojo.NYT;
-import com.example.dkkbg_000.nytretrofit.Pojo.Result;
 import com.example.dkkbg_000.nytretrofit.R;
-import com.example.dkkbg_000.nytretrofit.adapter;
+import com.example.dkkbg_000.nytretrofit.adapter.Adapter_MainActivity;
 import com.example.dkkbg_000.nytretrofit.fragment.FragmentDrawer;
+import com.example.dkkbg_000.nytretrofit.model.Result;
+import com.example.dkkbg_000.nytretrofit.presenter.CallbackLoadNews;
 import com.example.dkkbg_000.nytretrofit.presenter.LoadBussiness;
-import com.example.dkkbg_000.nytretrofit.rest.apiInterfaceNYT;
-import com.example.dkkbg_000.nytretrofit.rest.apiNYT;
+import com.example.dkkbg_000.nytretrofit.presenter.SolveTimerReload;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
@@ -55,29 +50,21 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
 
-
-//        apiInterfaceNYT apiService =
-//                apiNYT.apiClient().create(apiInterfaceNYT.class);
-//
-//        Call<NYT> call = apiService.topNews(key);
-//        call.enqueue(new Callback<NYT>() {
-//            @Override
-//            public void onResponse(Call<NYT> call, Response<NYT> response) {
-//                List<Result> news = response.body().getResults();
-//                Log.d("checkxyz: ", String.valueOf(news.size()));
-//                recyclerView.setAdapter(new adapter(news, R.layout.item_news, getApplicationContext()));
-//            }
-//
-//            @Override
-//            public void onFailure(Call<NYT> call, Throwable t) {
-//                Log.e("fail", t.toString());
-//            }
-//        });
+        final Context c = this;
 
         LoadBussiness newsBussiness = new LoadBussiness(key);
-        List<Result> listNewsBussiness = newsBussiness.getListNews();
-        Log.d("list news", String.valueOf(listNewsBussiness));
-        recyclerView.setAdapter(new adapter(newsBussiness.getListNews(), R.layout.item_news, getApplicationContext()));
+        newsBussiness.getListNews(new CallbackLoadNews() {
+            @Override
+            public void onSuccess(List<Result> results) {
+                recyclerView.setAdapter(new Adapter_MainActivity(results, R.layout.item_news, c));
+            }
+
+            @Override
+            public void onFaill(List<Result> error) {
+                Toast.makeText(MainActivity.this, "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         //From Here Starts All The Swipe To
         // Refresh Initialisation And Setter Methods.
@@ -89,14 +76,27 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 //onRefresh method is used to perform all the action
                 // when the swipe gesture is performed.
                 try {
-                    addTime();//addTime() Method is called
+//                    addTime();//addTime() Method is called
+                    SolveTimerReload reload = new SolveTimerReload(key);
+                    reload.addTime(new CallbackLoadNews() {
+                        @Override
+                        public void onSuccess(List<Result> results) {
+                            recyclerView.setAdapter(new Adapter_MainActivity(results, R.layout.item_news, c));
+                            if (swipeRefreshLayout.isRefreshing())
+                                swipeRefreshLayout.setRefreshing(false);
+                        }
+
+                        @Override
+                        public void onFaill(List<Result> error) {
+                            Toast.makeText(MainActivity.this, "fail", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
-        //This are some optional methods for customizing
-        // the colors and size of the loader.
         swipeRefreshLayout.setColorSchemeResources(
                 R.color.blue,       //This method will rotate
                 R.color.red,        //colors given to it when
@@ -107,44 +107,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         swipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
         //Below Method Will set background color of Loader
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white);
-    }
-
-    public void addTime() throws InterruptedException {
-        //Here I am using a Handler to perform the refresh
-        // action after some time to show some fake time
-        // consuming task is being performed.
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //EveryTime when this method is called
-                // time at that instant will be added to
-                // the ArrayList. This is just to populate
-                // the recycler view.
-//                myAdapter.timings.add(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
-//                myAdapter.notifyItemInserted(myAdapter.timings.size()-1);
-                apiInterfaceNYT apiService =
-                        apiNYT.apiClient().create(apiInterfaceNYT.class);
-
-                Call<NYT> call = apiService.topNews(key);
-                call.enqueue(new Callback<NYT>() {
-                    @Override
-                    public void onResponse(Call<NYT> call, Response<NYT> response) {
-                        List<Result> news = response.body().getResults();
-                        Log.d("checkxyz: ", String.valueOf(news.size()));
-                        recyclerView.setAdapter(new adapter(news, R.layout.item_news, getApplicationContext()));
-                    }
-
-                    @Override
-                    public void onFailure(Call<NYT> call, Throwable t) {
-                        Log.e("fail", t.toString());
-                    }
-                });
-                //setRefreshing(false) method is called to stop
-                // the refreshing animation view.
-                if (swipeRefreshLayout.isRefreshing())
-                    swipeRefreshLayout.setRefreshing(false);
-            }
-        }, 4000);
     }
 
     @Override
@@ -171,8 +133,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 //                title = getString(R.string.title_friends);
                 break;
             case 2:
-//                fragment = new MessagesFragment();
-//                title = getString(R.string.title_messages);
                 break;
             default:
                 break;

@@ -1,4 +1,4 @@
-package com.example.dkkbg_000.nytretrofit.Pojo;
+package com.example.dkkbg_000.nytretrofit.model;
 
 /**
  * Created by dkkbg_000 on 07/06/2016.

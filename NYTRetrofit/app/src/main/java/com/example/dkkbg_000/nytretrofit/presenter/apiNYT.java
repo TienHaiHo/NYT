@@ -1,4 +1,4 @@
-package com.example.dkkbg_000.nytretrofit.rest;
+package com.example.dkkbg_000.nytretrofit.presenter;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

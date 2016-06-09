@@ -1,4 +1,4 @@
-package com.example.dkkbg_000.nytretrofit.adapterFragment;
+package com.example.dkkbg_000.nytretrofit.fragment;
 
 /**
  * Created by Ravi on 29/07/15.

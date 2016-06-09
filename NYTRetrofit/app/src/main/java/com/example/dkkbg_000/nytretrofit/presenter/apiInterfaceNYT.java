@@ -1,6 +1,6 @@
-package com.example.dkkbg_000.nytretrofit.rest;
+package com.example.dkkbg_000.nytretrofit.presenter;
 
-import com.example.dkkbg_000.nytretrofit.Pojo.NYT;
+import com.example.dkkbg_000.nytretrofit.model.NYT;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

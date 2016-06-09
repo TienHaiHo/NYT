@@ -2,10 +2,8 @@ package com.example.dkkbg_000.nytretrofit.presenter;
 
 import android.util.Log;
 
-import com.example.dkkbg_000.nytretrofit.Pojo.NYT;
-import com.example.dkkbg_000.nytretrofit.Pojo.Result;
-import com.example.dkkbg_000.nytretrofit.rest.apiInterfaceNYT;
-import com.example.dkkbg_000.nytretrofit.rest.apiNYT;
+import com.example.dkkbg_000.nytretrofit.model.NYT;
+import com.example.dkkbg_000.nytretrofit.model.Result;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class LoadBussiness {
         this.key = key;
     }
 
-    public List<Result> getListNews(){
+    public void getListNews(final CallbackLoadNews cb){
         Log.d ("key", key);
         apiInterfaceNYT apiService =
                 apiNYT.apiClient().create(apiInterfaceNYT.class);
@@ -33,35 +31,15 @@ public class LoadBussiness {
             @Override
             public void onResponse(Call<NYT> call, Response<NYT> response) {
                 listNews = response.body().getResults();
-//                return news;
-//                Log.d("checkxyz: ", String.valueOf(listNews.size()));
-//                recyclerView.setAdapter(new adapter(news, R.layout.item_news, getApplicationContext()));
+                cb.onSuccess(listNews);
             }
 
             @Override
             public void onFailure(Call<NYT> call, Throwable t) {
-                Log.e("fail", t.toString());
+
+                //t.printStackTrace();
             }
         });
-        Log.d("check list", String.valueOf(listNews.size()));
-        return listNews;
     }
-    //        apiInterfaceNYT apiService =
-//                apiNYT.apiClient().create(apiInterfaceNYT.class);
-//
-//        Call<NYT> call = apiService.topNews(key);
-//        call.enqueue(new Callback<NYT>() {
-//            @Override
-//            public void onResponse(Call<NYT> call, Response<NYT> response) {
-//                List<Result> news = response.body().getResults();
-//                Log.d("checkxyz: ", String.valueOf(news.size()));
-//                recyclerView.setAdapter(new adapter(news, R.layout.item_news, getApplicationContext()));
-//            }
-//
-//            @Override
-//            public void onFailure(Call<NYT> call, Throwable t) {
-//                Log.e("fail", t.toString());
-//            }
-//        });
 
 }
