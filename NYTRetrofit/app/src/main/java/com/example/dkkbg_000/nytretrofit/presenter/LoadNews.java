@@ -14,19 +14,26 @@ import retrofit2.Response;
 /**
  * Created by dkkbg_000 on 08/06/2016.
  */
-public class LoadBussiness {
+public class LoadNews {
     private String key;
+    private int kind;
     private List<Result> listNews = null;
-    public LoadBussiness(String key){
+    public LoadNews(String key, int kind){
         this.key = key;
+        this.kind = kind;
     }
 
     public void getListNews(final CallbackLoadNews cb){
         Log.d ("key", key);
-        apiInterfaceNYT apiService =
-                apiNYT.apiClient().create(apiInterfaceNYT.class);
+        apiNYT.setNullRetrofit();
+        apiInterfaceNYT apiService = kind==1
+                ?apiNYT.apiClientBussiness().create(apiInterfaceNYT.class)
+                :apiNYT.apiClientArt().create(apiInterfaceNYT.class);
 
-        Call<NYT> call = apiService.topNews(key);
+
+        Call<NYT> call = (kind==1)
+                ?apiService.topNewsBussiness(key)
+                :apiService.topNewsArt(key);
         call.enqueue(new Callback<NYT>() {
             @Override
             public void onResponse(Call<NYT> call, Response<NYT> response) {
@@ -36,7 +43,6 @@ public class LoadBussiness {
 
             @Override
             public void onFailure(Call<NYT> call, Throwable t) {
-
                 //t.printStackTrace();
             }
         });

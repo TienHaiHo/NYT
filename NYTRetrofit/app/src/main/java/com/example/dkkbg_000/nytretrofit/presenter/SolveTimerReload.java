@@ -27,9 +27,9 @@ public class SolveTimerReload {
             @Override
             public void run() {
                 apiInterfaceNYT apiService =
-                        apiNYT.apiClient().create(apiInterfaceNYT.class);
+                        apiNYT.apiClientBussiness().create(apiInterfaceNYT.class);
 
-                Call<NYT> call = apiService.topNews(key);
+                Call<NYT> call = apiService.topNewsBussiness(key);
                 call.enqueue(new Callback<NYT>() {
                     @Override
                     public void onResponse(Call<NYT> call, Response<NYT> response) {

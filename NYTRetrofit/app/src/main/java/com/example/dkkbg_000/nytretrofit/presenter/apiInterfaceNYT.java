@@ -14,7 +14,9 @@ public interface apiInterfaceNYT {
     //@GET("24.json?limit=10")
 
     @GET("72.json")
-    Call<NYT> topNews(@Query("api_key") String apiKey);
-//    @GET("/24.json?limit=10")
-//    void
+    Call<NYT> topNewsBussiness(@Query("api_key") String apiKey);
+    //http://api.nytimes.com/svc/news/v3/content/all/arts/24.json?limit=10
+
+    @GET("24.json?limit=10")
+    Call<NYT> topNewsArt(@Query("api_key") String apiKey);
 }

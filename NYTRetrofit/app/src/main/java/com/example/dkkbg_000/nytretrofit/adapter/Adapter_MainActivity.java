@@ -6,11 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.dkkbg_000.nytretrofit.R;
 import com.example.dkkbg_000.nytretrofit.model.Result;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -41,6 +43,15 @@ public class Adapter_MainActivity extends RecyclerView.Adapter<Adapter_MainActiv
         Log.d("title",news.get(position).getTitle());
         holder.movieTitle.setText(news.get(position).getTitle());
         holder.abstractNews.setText(news.get(position).getAbstract());
+        String thumbnail = news.get(position).getThumbnailStandard();
+        if (thumbnail.length()>1){
+            holder.image.setMinimumHeight(200);
+            holder.image.setMinimumWidth(200);
+            Picasso.with(context)
+                    .load(thumbnail.replace("\\",""))
+                    .into(holder.image);
+        }
+
 //        holder.movieDescription.setText(news.get(position).getOverview());
 //        holder.rating.setText(news.get(position).getVoteAverage().toString());
     }
@@ -55,8 +66,7 @@ public class Adapter_MainActivity extends RecyclerView.Adapter<Adapter_MainActiv
         LinearLayout moviesLayout;
         TextView movieTitle;
         TextView abstractNews;
-//        TextView movieDescription;
-//        TextView rating;
+        ImageView image;
 
 
         public MovieViewHolder(View v) {
@@ -64,9 +74,7 @@ public class Adapter_MainActivity extends RecyclerView.Adapter<Adapter_MainActiv
             moviesLayout = (LinearLayout) v.findViewById(R.id.temp);
             movieTitle = (TextView) v.findViewById(R.id.title);
             abstractNews = (TextView) v.findViewById(R.id.abstract_news);
-//            data = (TextView) v.findViewById(R.id.subtitle);
-//            movieDescription = (TextView) v.findViewById(R.id.description);
-//            rating = (TextView) v.findViewById(R.id.rating);
+            image = (ImageView) v.findViewById(R.id.image_news);
         }
     }
 }
