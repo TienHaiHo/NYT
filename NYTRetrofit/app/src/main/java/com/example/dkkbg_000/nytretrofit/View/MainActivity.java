@@ -1,7 +1,10 @@
-package com.example.dkkbg_000.nytretrofit;
+package com.example.dkkbg_000.nytretrofit.View;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +17,10 @@ import android.view.View;
 
 import com.example.dkkbg_000.nytretrofit.Pojo.NYT;
 import com.example.dkkbg_000.nytretrofit.Pojo.Result;
+import com.example.dkkbg_000.nytretrofit.R;
+import com.example.dkkbg_000.nytretrofit.adapter;
 import com.example.dkkbg_000.nytretrofit.fragment.FragmentDrawer;
+import com.example.dkkbg_000.nytretrofit.presenter.LoadBussiness;
 import com.example.dkkbg_000.nytretrofit.rest.apiInterfaceNYT;
 import com.example.dkkbg_000.nytretrofit.rest.apiNYT;
 
@@ -50,23 +56,28 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         drawerFragment.setDrawerListener(this);
 
 
-        apiInterfaceNYT apiService =
-                apiNYT.apiClient().create(apiInterfaceNYT.class);
+//        apiInterfaceNYT apiService =
+//                apiNYT.apiClient().create(apiInterfaceNYT.class);
+//
+//        Call<NYT> call = apiService.topNews(key);
+//        call.enqueue(new Callback<NYT>() {
+//            @Override
+//            public void onResponse(Call<NYT> call, Response<NYT> response) {
+//                List<Result> news = response.body().getResults();
+//                Log.d("checkxyz: ", String.valueOf(news.size()));
+//                recyclerView.setAdapter(new adapter(news, R.layout.item_news, getApplicationContext()));
+//            }
+//
+//            @Override
+//            public void onFailure(Call<NYT> call, Throwable t) {
+//                Log.e("fail", t.toString());
+//            }
+//        });
 
-        Call<NYT> call = apiService.topNews(key);
-        call.enqueue(new Callback<NYT>() {
-            @Override
-            public void onResponse(Call<NYT> call, Response<NYT> response) {
-                List<Result> news = response.body().getResults();
-                Log.d("checkxyz: ", String.valueOf(news.size()));
-                recyclerView.setAdapter(new adapter(news, R.layout.item_news, getApplicationContext()));
-            }
-
-            @Override
-            public void onFailure(Call<NYT> call, Throwable t) {
-                Log.e("fail", t.toString());
-            }
-        });
+        LoadBussiness newsBussiness = new LoadBussiness(key);
+        List<Result> listNewsBussiness = newsBussiness.getListNews();
+        Log.d("list news", String.valueOf(listNewsBussiness));
+        recyclerView.setAdapter(new adapter(newsBussiness.getListNews(), R.layout.item_news, getApplicationContext()));
 
         //From Here Starts All The Swipe To
         // Refresh Initialisation And Setter Methods.
@@ -147,34 +158,34 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         //displayView(position);
     }
 
-//    private void displayView(int position) {
-//        Fragment fragment = null;
-//        String title = getString(R.string.app_name);
-//        switch (position) {
-//            case 0:
-//                fragment = new HomeFragment();
+    private void displayView(int position) {
+        Fragment fragment = null;
+        String title = getString(R.string.app_name);
+        switch (position) {
+            case 0:
+                fragment = new BussinessFragment();
 //                title = getString(R.string.title_home);
-//                break;
-//            case 1:
-//                fragment = new FriendsFragment();
+                break;
+            case 1:
+                fragment = new ArtFragment();
 //                title = getString(R.string.title_friends);
-//                break;
-//            case 2:
+                break;
+            case 2:
 //                fragment = new MessagesFragment();
 //                title = getString(R.string.title_messages);
-//                break;
-//            default:
-//                break;
-//        }
-//
-//        if (fragment != null) {
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            fragmentTransaction.replace(R.id.container_body, fragment);
-//            fragmentTransaction.commit();
-//
-//            // set the toolbar title
-//            getSupportActionBar().setTitle(title);
-//        }
-//    }
+                break;
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.commit();
+
+            // set the toolbar title
+            getSupportActionBar().setTitle(title);
+        }
+    }
 }
