@@ -11,11 +11,11 @@ import android.view.Menu;
 import android.view.View;
 
 import com.example.dkkbg_000.nytretrofit.R;
-import com.example.dkkbg_000.nytretrofit.fragment.FragmentDrawer;
+import com.example.dkkbg_000.nytretrofit.presenter.FragmentDrawerListener;
 
-public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
+public class MainActivity extends AppCompatActivity implements FragmentDrawerListener {
 
-    private FragmentDrawer drawerFragment;
+    private DrawerFragment drawerFragment;
     private Toolbar mToolbar;
 
     @Override
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        drawerFragment = (FragmentDrawer)
+        drawerFragment = (DrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 title = getString(R.string.nav_item_art);
                 break;
             case 2:
-                break;
+                fragment = new AboutFragment();
+                title = getString(R.string.nav_item_about);
             default:
                 break;
         }

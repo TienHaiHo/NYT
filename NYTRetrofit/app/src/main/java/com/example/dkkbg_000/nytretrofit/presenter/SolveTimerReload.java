@@ -19,15 +19,15 @@ public class SolveTimerReload {
     public SolveTimerReload(String key){
         this.key = key;
     }
-    public void addTime(final CallbackLoadNews cb) throws InterruptedException {
+    public void addTime(final LoadNewsCallback cb) throws InterruptedException {
         //Here I am using a Handler to perform the refresh
         // action after some time to show some fake time
         // consuming task is being performed.
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                apiInterfaceNYT apiService =
-                        apiNYT.apiClientBussiness().create(apiInterfaceNYT.class);
+                NYTClientInterface apiService =
+                        NYTClientIml.apiClientBussiness().create(NYTClientInterface.class);
 
                 Call<NYT> call = apiService.topNewsBussiness(key);
                 call.enqueue(new Callback<NYT>() {
@@ -42,8 +42,6 @@ public class SolveTimerReload {
                         cb.onFaill(null);
                     }
                 });
-//                if (swipeRefreshLayout.isRefreshing())
-//                    swipeRefreshLayout.setRefreshing(false);
             }
         }, 4000);
     }

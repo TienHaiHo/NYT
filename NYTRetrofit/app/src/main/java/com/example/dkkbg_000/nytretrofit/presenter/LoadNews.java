@@ -23,13 +23,12 @@ public class LoadNews {
         this.kind = kind;
     }
 
-    public void getListNews(final CallbackLoadNews cb){
+    public void getListNews(final LoadNewsCallback cb){
         Log.d ("key", key);
-        apiNYT.setNullRetrofit();
-        apiInterfaceNYT apiService = kind==1
-                ?apiNYT.apiClientBussiness().create(apiInterfaceNYT.class)
-                :apiNYT.apiClientArt().create(apiInterfaceNYT.class);
-
+        NYTClientIml.setNullRetrofit();
+        NYTClientInterface apiService = kind==1
+                ? NYTClientIml.apiClientBussiness().create(NYTClientInterface.class)
+                : NYTClientIml.apiClientArt().create(NYTClientInterface.class);
 
         Call<NYT> call = (kind==1)
                 ?apiService.topNewsBussiness(key)
@@ -43,7 +42,6 @@ public class LoadNews {
 
             @Override
             public void onFailure(Call<NYT> call, Throwable t) {
-                //t.printStackTrace();
             }
         });
     }

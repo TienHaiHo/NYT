@@ -52,7 +52,7 @@ android:layout_height="match_parent">
 
     <fragment
         android:id="@+id/fragment_navigation_drawer"
-        android:name="com.example.dkkbg_000.nytretrofit.fragment.FragmentDrawer"
+        android:name="com.example.dkkbg_000.nytretrofit.view_news.DrawerFragment"
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"

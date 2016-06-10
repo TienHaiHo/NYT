@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.dkkbg_000.nytretrofit.R;
-import com.example.dkkbg_000.nytretrofit.adapter.Adapter_MainActivity;
+import com.example.dkkbg_000.nytretrofit.adapter.MainAdapter;
 import com.example.dkkbg_000.nytretrofit.model.Result;
-import com.example.dkkbg_000.nytretrofit.presenter.CallbackLoadNews;
+import com.example.dkkbg_000.nytretrofit.presenter.Config;
+import com.example.dkkbg_000.nytretrofit.presenter.LoadNewsCallback;
 import com.example.dkkbg_000.nytretrofit.presenter.LoadNews;
 import com.example.dkkbg_000.nytretrofit.presenter.SolveTimerReload;
 
@@ -24,7 +25,6 @@ import java.util.List;
 public class BussinessFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerView;
-    final String key = "ffd170d7fe4246c69413fb97a1b0ce05";
 
     public BussinessFragment() {
         // Required empty public constructor
@@ -47,11 +47,11 @@ public class BussinessFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.news_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        LoadNews newsBussiness = new LoadNews(key,1);
-        newsBussiness.getListNews(new CallbackLoadNews() {
+        LoadNews newsBussiness = new LoadNews(Config.KEY,1);
+        newsBussiness.getListNews(new LoadNewsCallback() {
             @Override
             public void onSuccess(List<Result> results) {
-                recyclerView.setAdapter(new Adapter_MainActivity(results, R.layout.item_news, c));
+                recyclerView.setAdapter(new MainAdapter(results, R.layout.item_news, c));
             }
 
             @Override
@@ -67,11 +67,11 @@ public class BussinessFragment extends Fragment {
             @Override
             public void onRefresh() {
                 try {
-                    SolveTimerReload reload = new SolveTimerReload(key);
-                    reload.addTime(new CallbackLoadNews() {
+                    SolveTimerReload reload = new SolveTimerReload(Config.KEY);
+                    reload.addTime(new LoadNewsCallback() {
                         @Override
                         public void onSuccess(List<Result> results) {
-                            recyclerView.setAdapter(new Adapter_MainActivity(results, R.layout.item_news, c));
+                            recyclerView.setAdapter(new MainAdapter(results, R.layout.item_news, c));
                             if (swipeRefreshLayout.isRefreshing())
                                 swipeRefreshLayout.setRefreshing(false);
                         }

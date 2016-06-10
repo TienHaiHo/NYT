@@ -1,7 +1,7 @@
-package com.example.dkkbg_000.nytretrofit.fragment;
+package com.example.dkkbg_000.nytretrofit.adapter;
 
 /**
- * Created by Ravi on 29/07/15.
+ * Created by dkkbg_000 on 07/06/2016.
  */
 
 import android.content.Context;

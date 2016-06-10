@@ -19,28 +19,27 @@ import java.util.List;
 /**
  * Created by dkkbg_000 on 07/06/2016.
  */
-public class Adapter_MainActivity extends RecyclerView.Adapter<Adapter_MainActivity.MovieViewHolder>{
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolder>{
     private List<Result> news;
     private int rowLayout;
     private Context context;
 
 
-    public Adapter_MainActivity(List<Result> news, int rowLayout, Context context) {
+    public MainAdapter(List<Result> news, int rowLayout, Context context) {
         this.news = news;
         this.rowLayout = rowLayout;
         this.context = context;
     }
 
     @Override
-    public Adapter_MainActivity.MovieViewHolder onCreateViewHolder(ViewGroup parent,
-                                                            int viewType) {
+    public MainAdapter.MovieViewHolder onCreateViewHolder(ViewGroup parent,
+                                                          int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
         return new MovieViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, final int position) {
-        Log.d("title",news.get(position).getTitle());
         holder.movieTitle.setText(news.get(position).getTitle());
         holder.abstractNews.setText(news.get(position).getAbstract());
         String thumbnail = news.get(position).getThumbnailStandard();
@@ -51,14 +50,10 @@ public class Adapter_MainActivity extends RecyclerView.Adapter<Adapter_MainActiv
                     .load(thumbnail.replace("\\",""))
                     .into(holder.image);
         }
-
-//        holder.movieDescription.setText(news.get(position).getOverview());
-//        holder.rating.setText(news.get(position).getVoteAverage().toString());
     }
 
     @Override
     public int getItemCount() {
-        Log.d("size", String.valueOf(news.size()));
         return news.size();
     }
 

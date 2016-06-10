@@ -1,4 +1,4 @@
-package layout;
+package com.example.dkkbg_000.nytretrofit.view_news;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,7 +24,6 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_about, container, false);
-
 
         // Inflate the layout for this fragment
         return rootView;
